@@ -16,25 +16,25 @@ public class TaskController
         return new ArrayList<>();
     }
 
-    @GetMapping(value = "getSpecificTask")
+    @GetMapping(value = "getTaskById")
     public TaskDto getTask(Long taskId)
     {
         return new TaskDto(1L, "test title", "test_content");
     }
 
-    @DeleteMapping(value = "deleteSpecificTask")
+    @DeleteMapping(value = "deleteTaskById")
     public void deleteTask(Long taskId)
     {
 
     }
 
-    @PutMapping(value = "updateSpecificTask")
+    @PutMapping(value = "updateTask")
     public TaskDto updateTask(TaskDto taskDto)
     {
         return new TaskDto(1L, "Edited test title", "Test content");
     }
 
-    @PostMapping(value = "createNewTask")
+    @PostMapping(value = "createTask")
     public void createTask(TaskDto taskDto)
     {
 
