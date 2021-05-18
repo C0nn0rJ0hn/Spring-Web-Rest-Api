@@ -28,9 +28,9 @@ public class TaskController
     }
 
     @GetMapping(value = "getTaskById")
-    public TaskDto getTask(Long taskId)
+    public TaskDto getTask(Long taskId) throws Exception
     {
-        return new TaskDto(1L, "test title", "test_content");
+        return taskMapper.mapToTaskDto(service.getTaskById(taskId).orElseThrow(Exception::new));
     }
 
     @DeleteMapping(value = "deleteTaskById")

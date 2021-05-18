@@ -5,7 +5,9 @@ import com.crud.tasks.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,5 +18,10 @@ public class DbService
     public List<Task> getAllTasks()
     {
         return repository.findAll();
+    }
+
+    public Optional<Task> getTaskById(Long id)
+    {
+        return repository.findById(id);
     }
 }
