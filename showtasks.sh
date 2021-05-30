@@ -19,9 +19,13 @@ open_safari() {
 }
 
 if start_crud; then
-  open_safari
-  end
-else
-  fail
+  if [ $? -eq 0 ]
+ then
+   open_safari
+   end
+ else
+   fail
+ fi
 fi
+
 
