@@ -1,5 +1,6 @@
 package com.crud.tasks.trello.client;
 
+import com.crud.tasks.controller.TrelloBoardNotFoundException;
 import com.crud.tasks.domain.TrelloBoardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,9 +29,23 @@ public class TrelloClient
     @Value("${trello.app.token}")
     private String trelloToken;
 
+    @Value("${trello.app.username}")
+    private String trelloUsername;
+
     public List<TrelloBoardDto> getTrelloBoards()
     {
-        URI url = UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint +"/members/pawel84762689/boards")
+        URI privateURL = getUrl();
+
+        TrelloBoardDto[] boardsResponse = restTemplate.getForObject(privateURL, TrelloBoardDto[].class);
+
+        return Optional.ofNullable(boardsResponse)
+                .map(Arrays::asList)
+                .orElseThrow(TrelloBoardNotFoundException::new);
+    }
+
+    private URI getUrl()
+    {
+        URI url = UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint +"/members/" + trelloUsername + "/boards")
                 .queryParam("key", trelloAppKey)
                 .queryParam("token", trelloToken)
                 .queryParam("fields", "name, id")
@@ -38,10 +53,6 @@ public class TrelloClient
                 .encode()
                 .toUri();
 
-        TrelloBoardDto[] boardsResponse = restTemplate.getForObject(url, TrelloBoardDto[].class);
-
-        return Optional.ofNullable(boardsResponse)
-                .map(Arrays::asList)
-                .orElse(Collections.emptyList());
+        return url;
     }
 }
