@@ -27,7 +27,7 @@ public class EmailScheduler {
                     SUBJECT,
                     size == 1 ? msg + " task" : msg + " tasks",
                     null
-                )
+                ), "mail/daily-mail-with-tasks-number"
         );
     }
 }

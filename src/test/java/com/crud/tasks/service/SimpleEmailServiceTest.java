@@ -41,7 +41,7 @@ class SimpleEmailServiceTest {
         Optional.ofNullable(mail.getToCc()).ifPresent(mailMessage::setCc);
 
         //When
-        simpleEmailService.send(mail);
+        simpleEmailService.send(mail, null);
 
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);

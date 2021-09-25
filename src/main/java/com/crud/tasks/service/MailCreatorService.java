@@ -20,7 +20,10 @@ public class MailCreatorService {
     @Autowired
     private AdminConfig adminConfig;
 
-    public String buildTrelloCardEmail(String message) {
+    @Autowired
+    private DbService service;
+
+    public String buildEmailUsingTemplate(String message, String emailTemplate) {
         List<String> functionality = new ArrayList<>();
         functionality.add("You can manage yor tasks");
         functionality.add("Provides connection with Trello Account");
@@ -32,13 +35,16 @@ public class MailCreatorService {
         context.setVariable("button", "Visit website");
         context.setVariable("admin_name", adminConfig.getAdminName());
         context.setVariable("goodbye", "Sincerely" + "\n" + adminConfig.getOwnerName() + " " + adminConfig.getOwnerSurname());
-        context.setVariable("preview", "New activity on Your trello board | ");
+        context.setVariable("end", adminConfig);
+        context.setVariable("preview_trello", "New activity on Your trello board | ");
+        context.setVariable("preview", "Daily status of yor application | ");
         context.setVariable("companyDetails", adminConfig.getCompanyName() + "\n" +
                 adminConfig.getCompanyMail() + "\n" + adminConfig.getCompanyPhone() + "\n" + adminConfig.getCompanyGoal());
-        context.setVariable("show_button", true);
+        context.setVariable("show_button", false);
         context.setVariable("is_friend", false);
         context.setVariable("admin_config", adminConfig);
         context.setVariable("application_functionality", functionality);
-        return templateEngine.process("mail/created-trello-card-mail", context);
+        context.setVariable("tasks_names", service.getAllTasks());
+        return templateEngine.process(emailTemplate, context);
     }
 }

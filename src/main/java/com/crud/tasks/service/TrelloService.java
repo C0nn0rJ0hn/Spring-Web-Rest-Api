@@ -32,7 +32,7 @@ public class TrelloService {
                     SUBJECT,
                     "New Card: " + trelloCardDto.getName() + " has been created on your Trello account",
                     null
-                )));
+                ), "mail/created-trello-card-mail"));
         return newCard;
     }
 }
