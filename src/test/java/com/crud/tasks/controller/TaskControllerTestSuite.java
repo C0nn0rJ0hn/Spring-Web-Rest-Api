@@ -45,7 +45,7 @@ public class TaskControllerTestSuite {
 
         //When & Then
         mockMvc.perform(MockMvcRequestBuilders
-        .get("/v1/task/getTasks")
+        .get("/v1/tasks")
         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1))
@@ -64,9 +64,8 @@ public class TaskControllerTestSuite {
 
         //When & Then
         mockMvc.perform(MockMvcRequestBuilders
-        .get("/v1/task/getTaskById")
-        .contentType(MediaType.APPLICATION_JSON)
-        .param("taskId", "5"))
+        .get("/v1/tasks/{taskId}", 5)
+        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title", Matchers.is("Title Dto")))
                 .andExpect(jsonPath("$.id", Matchers.is(8)))
@@ -77,9 +76,8 @@ public class TaskControllerTestSuite {
     void shouldDeleteTaskById() throws Exception {
         //Given, When & Then
         mockMvc.perform(MockMvcRequestBuilders
-        .delete("/v1/task/deleteTaskById")
-        .contentType(MediaType.APPLICATION_JSON)
-        .param("taskId", "3"))
+        .delete("/v1/tasks/{taskId}", 3)
+        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -98,7 +96,7 @@ public class TaskControllerTestSuite {
 
         //When & Then
         mockMvc.perform(MockMvcRequestBuilders
-        .put("/v1/task/updateTask")
+        .put("/v1/tasks")
         .contentType(MediaType.APPLICATION_JSON)
         .characterEncoding("UTF-8")
         .content(jsonContent))
@@ -122,7 +120,7 @@ public class TaskControllerTestSuite {
 
         //When & Then
         mockMvc.perform(MockMvcRequestBuilders
-        .post("/v1/task/createTask")
+        .post("/v1/tasks")
         .contentType(MediaType.APPLICATION_JSON)
         .characterEncoding("UTF-8")
         .content(jsonContent))
